@@ -2,14 +2,23 @@ var roleFarmer = {
 
     /** @param {Creep} creep **/
     run: function(creep) {
+      var target = creep.memory.target;
+      var target_type = creep.memory.target_type;
+      var sources = creep.room.find(FIND_SOURCES);
         if(creep.carry.energy < creep.carryCapacity) {
-            var sources = creep.room.find(FIND_SOURCES);
-            var temp = creep.memory.farm_target;
-            if(temp == undefined){
-               creep.memory.farm_target = Math.floor(Math.random() * sources.length);
+            if(target_type == 'flag'){
+              var flagpos = Game.flags.target;
+              if(creep.harvest(creep.pos.findClosestByRange(FIND_SOURCES)) == ERR_NOT_IN_RANGE){
+                  creep.moveTo(flagpos);
+              }
             }
-            if(creep.harvest(sources[temp]) == ERR_NOT_IN_RANGE) {
-            creep.moveTo(sources[temp]); 
+            else{
+              if(target == undefined){
+                 creep.memory.target = Math.floor(Math.random() * sources.length);
+              }
+              if(creep.harvest(sources[target]) == ERR_NOT_IN_RANGE) {
+              creep.moveTo(sources[target]); 
+              }
             }
         }
         else {
@@ -24,6 +33,8 @@ var roleFarmer = {
                 if(creep.transfer(targets[0], RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targets[0]);
                 }
+            } else {
+                creep.moveTo(Game.flags.home);
             }
         }
     }
