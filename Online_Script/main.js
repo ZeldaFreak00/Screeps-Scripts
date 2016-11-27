@@ -7,9 +7,9 @@ var roleHunter = require('role.Hunter');
 var screep_create = require('screep_create');
 
 var farmer_max = 6;
-var builder_max = 3;
+var builder_max = 1;
 var upgrader_max = 3;
-var repair_max = 3;
+var repair_max = 2;
 
 var spawn = ["Hyrule"];
 var sources = new Array(spawn.length);
